@@ -15,7 +15,8 @@ export default function HomePage() {
     const [open, setOpen] = useState<boolean>(false);
 
     // CRUD functionality
-    // add items to db
+
+    // update all items in db
     const updateInventory = async () => {
         // get the snapshot of the collection
         const snapshot = query(collection(db, 'inventory'));
@@ -53,6 +54,7 @@ export default function HomePage() {
         await updateInventory();
     }
 
+    // add items to db
     const addItem = async (userItem: string, userQuantity: number) => {
 
         console.log("userItem: " + userItem);
