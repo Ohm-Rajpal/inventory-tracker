@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect, useState} from "react";
-import { firestore} from "@/firebase/clientApp";
+import { firestore } from "@/firebase/clientApp";
 import {Button, Modal, Box, Typography, TextField, Grid, Stack} from "@mui/material";
 import {
     collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc
@@ -56,6 +56,17 @@ export default function HomePage() {
         await updateInventory();
     }
 
+    // edit items in the db
+    const editItem = async (userItem: string, userQuantity: number) => {
+        const docRef = doc(collection(db, 'inventory'), userItem);
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists()) {
+            await setDoc(docRef, {quantity: userQuantity});
+        }
+        await updateInventory();
+    }
+
     // add items to db
     const addItem = async (userItem: string, userQuantity: number) => {
         // cast it so repeated items don't create new entries
@@ -72,14 +83,12 @@ export default function HomePage() {
         } else {
             await setDoc(docRef, { name: userItem, quantity: userQuantity });
         }
-
         await updateInventory();
     }
 
     // Modal functions
     const handleOpen = () => { setOpen(true); }
     const handleClose = () => { setOpen(false); }
-
 
     return (
       <Box
@@ -106,7 +115,7 @@ export default function HomePage() {
                  display='flex'
                  flexDirection='column'
                  gap={3}>
-                <Typography variant='h5'>Add item</Typography>
+                <Typography variant='h5'>Add / Edit item</Typography>
 
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
@@ -131,7 +140,7 @@ export default function HomePage() {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <Button
                             variant='outlined'
                             fullWidth
@@ -140,11 +149,26 @@ export default function HomePage() {
                                 setItemName('');
                                 setQuantity(0);
                                 handleClose();
-                                await updateInventory();
                             }
                             }
                         >
-                            Add / Edit Item
+                            Add Item
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Button
+                            variant='outlined'
+                            fullWidth
+                            onClick={ async () => {
+                                await editItem(itemName, quantity);
+                                setItemName('');
+                                setQuantity(0);
+                                handleClose();
+                            }
+                            }
+                        >
+                            Edit Item
                         </Button>
                     </Grid>
                 </Grid>
