@@ -57,6 +57,8 @@ export default function HomePage() {
 
     // add items to db
     const addItem = async (userItem: string, userQuantity: number) => {
+        // cast it so repeated items don't create new entries
+        userItem = userItem.toLowerCase();
 
         console.log("userItem: " + userItem);
         console.log("userQuantity: " + userQuantity);
@@ -189,7 +191,7 @@ export default function HomePage() {
                     display='flex'
                     alignItems='center'
                     justifyContent='space-between'
-                    bgcolor='#f0f0f0'
+                    bgcolor='#c7bdf2'
                     padding={3}
                     borderRadius='10px'
                 >
