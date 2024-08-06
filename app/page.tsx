@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import { firestore } from "@/firebase/clientApp";
 import {Button, Modal, Box, Typography, TextField, Grid, Stack} from "@mui/material";
+import { Edit as EditIcon } from '@mui/icons-material';
 import {
     collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc
 } from "@firebase/firestore";
@@ -62,7 +63,11 @@ export default function HomePage() {
         const docSnapshot = await getDoc(docRef);
 
         if (docSnapshot.exists()) {
-            await setDoc(docRef, {quantity: userQuantity});
+            if (userQuantity <= 0) {
+                await deleteDoc(docRef);
+            } else {
+                await setDoc(docRef, {quantity: userQuantity});
+            }
         }
         await updateInventory();
     }
@@ -93,13 +98,16 @@ export default function HomePage() {
     return (
       <Box
        width='100vw'
-       height='100vh'
+       minHeight='100vh'
        display='flex'
-       justifyContent='center'
+       justifyContent='top'
        alignItems='center'
        gap={2}
+       bgcolor='#00246B'
        flexDirection='column'
-       bgcolor='#00246B'>
+       overflow-y='auto'
+       // bgcolor='linear-gradient(to bottom, #00246B)'
+      >
         <Modal open={open} onClose={handleClose}>
             <Box position='absolute'
                  top='50%'
@@ -149,8 +157,7 @@ export default function HomePage() {
                                 setItemName('');
                                 setQuantity(0);
                                 handleClose();
-                            }
-                            }
+                            }}
                         >
                             Add Item
                         </Button>
@@ -165,8 +172,7 @@ export default function HomePage() {
                                 setItemName('');
                                 setQuantity(0);
                                 handleClose();
-                            }
-                            }
+                            }}
                         >
                             Edit Item
                         </Button>
@@ -174,8 +180,9 @@ export default function HomePage() {
                 </Grid>
             </Box>
         </Modal>
-        <Typography variant='h1' color='white'>Inventory Management</Typography>
-        <Button
+        <Typography variant='h2' color='white'>Inventory Management</Typography>
+
+          <Button
             variant='contained'
             onClick={()=> {
                 handleOpen();
@@ -185,8 +192,8 @@ export default function HomePage() {
         </Button>
 
         <Box border="1px solid #333"
-             width='800px'
-             height='100px'
+             width='700px'
+             height='50px'
              bgcolor='#ADD8E6'
              display='flex'
              p='10px'
@@ -194,15 +201,15 @@ export default function HomePage() {
              alignItems='center'
              justifyContent='center'
         >
-            <Typography variant='h2' color='#333'>
+            <Typography variant='h4' color='#333'>
                 Inventory Items
             </Typography>
         </Box>
 
         <Stack
-            width='800px'
+            width='700px'
             borderRadius='20px'
-            height='200px'
+            height='50px'
             p='10px'
             spacing={2}
             display='flex'
@@ -212,7 +219,7 @@ export default function HomePage() {
                 <Box
                     key={name}
                     width='100%'
-                    minHeight='150px'
+                    minHeight='50px'
                     display='flex'
                     alignItems='center'
                     justifyContent='space-between'
@@ -220,7 +227,10 @@ export default function HomePage() {
                     padding={3}
                     borderRadius='10px'
                 >
-                    <Typography variant='h5' color='#333'>
+                    <Typography
+                        variant='h5'
+                        color='#333'
+                    >
                         {name.charAt(0).toUpperCase() + name.slice(1)}
                     </Typography>
 
@@ -239,6 +249,13 @@ export default function HomePage() {
                         <Button variant='outlined' size='small' onClick={ async () => {
                             await addItem(name, 1);
                         }} sx={{ marginRight: 1 }}>+</Button>
+
+                        <Button variant='outlined' size='small' onClick={ async () => {
+                            handleOpen();
+                        }} sx={{ marginRight: 1 }}>
+                            <EditIcon />
+                        </Button>
+
                         <Button variant='outlined' size='small' onClick={ async () => {
                             await removeItem(name);
                         }} sx={{ marginLeft: 1 }}>-</Button>
@@ -246,5 +263,6 @@ export default function HomePage() {
                 </Box>
             ))}
         </Stack>
-      </Box>)
+      </Box>
+    )
 }
