@@ -1,1 +1,12 @@
-This is a project where users can read, write, and delete items into an inventory management system. I am using Next.js, React, TypeScript, Material UI, and Firebase in this project. It is still a work in progress as I keep exceeding quota so I need to come up with a smarter way of managing my database. Additionally, the UI right now is not looking the best, so I will be making changes to it soon.
+In this project, I created a web app where users can read, write, and delete items into an inventory management system using interactive buttons or the edit feature. 
+
+The tech stack I used was Next.js, React, TypeScript, Material UI, and Firebase!
+
+This is how the UI looks. The quantity of each item is slightly unaligned, but does not detract from the application's purpose.
+![img.png](img.png)
+
+This is a Modal which enables users to add items, edit items, and delete
+![img_1.png](img_1.png)
+
+This is how my Firebase database looks like
+![img_2.png](img_2.png)
