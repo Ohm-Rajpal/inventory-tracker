@@ -1,9 +1,11 @@
 'use client'
 
 import React, {useEffect, useState} from "react";
-import { firestore } from "@/firebase/clientApp";
+import { firestore} from "@/firebase/clientApp";
 import {Button, Modal, Box, Typography, TextField, Grid, Stack} from "@mui/material";
-import {collection, deleteDoc, doc, getDoc, getDocs, query, setDoc} from "@firebase/firestore";
+import {
+    collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc
+} from "@firebase/firestore";
 
 const db = firestore;
 
@@ -198,9 +200,16 @@ export default function HomePage() {
                         {name.charAt(0).toUpperCase() + name.slice(1)}
                     </Typography>
 
-                    <Typography variant='h5' color='#333'>
-                        {quantity}
-                    </Typography>
+                    <Box
+                        display="flex"
+                        flexGrow={1}
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Typography variant="h5" color="#333">
+                            {quantity}
+                        </Typography>
+                    </Box>
 
                     <Box display='flex' alignItems='center'>
                         <Button variant='outlined' size='small' onClick={ async () => {
