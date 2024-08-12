@@ -215,6 +215,7 @@ export default function HomePage() {
             display='flex'
             alignItems='center'
             justifyContent='column'>
+
             {inventory.map(({ name, quantity }) => (
                 <Box
                     key={name}
@@ -230,13 +231,14 @@ export default function HomePage() {
                     <Typography
                         variant='h5'
                         color='#333'
+                        sx={{ flexBasis: '50%', textAlign: 'left' }}
                     >
                         {name.charAt(0).toUpperCase() + name.slice(1)}
                     </Typography>
 
                     <Box
                         display="flex"
-                        flexGrow={1}
+                        flexBasis='20%'
                         alignItems="center"
                         justifyContent="center"
                     >
@@ -245,7 +247,12 @@ export default function HomePage() {
                         </Typography>
                     </Box>
 
-                    <Box display='flex' alignItems='center'>
+                    <Box
+                        display='flex'
+                        flexBasis='50%'
+                        justifyContent='flex-end'
+                        alignItems='center'
+                    >
                         <Button variant='outlined' size='small' onClick={ async () => {
                             await addItem(name, 1);
                         }} sx={{ marginRight: 1 }}>+</Button>
