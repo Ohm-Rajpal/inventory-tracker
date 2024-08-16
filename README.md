@@ -9,4 +9,4 @@ This is a Modal which enables users to add items, edit items, and delete
 ![img_4.png](img_4.png)
 
 This is how my Firebase database looks like
-![img_1.png](img_1.png)!
+![img_1.png](img_1.png)
